@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'next/navigation';
 
-const page = () => {
+const SignUp = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -87,4 +87,4 @@ const page = () => {
     )
 }
 
-export default page
+export default SignUp

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'next/navigation';
 
-const page = () => {
+const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [validEmail, setValidEmail] = useState(true);
@@ -76,4 +76,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Login
