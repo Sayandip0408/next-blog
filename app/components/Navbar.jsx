@@ -2,13 +2,11 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../context/authContext';
-import { FaShop, FaUsersViewfinder } from "react-icons/fa6";
-import { IoMenu } from "react-icons/io5";
-import { IoIosClose, IoMdPerson, IoIosLogOut, IoIosPerson } from "react-icons/io";
-import { MdSpaceDashboard, MdCategory, MdProductionQuantityLimits, MdPostAdd } from "react-icons/md";
-import { GiPlatform } from "react-icons/gi";
+import { IoIosClose, IoIosLogOut, IoIosPerson, IoIosLogIn } from "react-icons/io";
+import { MdSpaceDashboard, MdCategory } from "react-icons/md";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { RiAddBoxFill } from "react-icons/ri";
+import { PiAddressBookTabsFill } from "react-icons/pi";
 
 const Navbar = () => {
     const { accessToken, logout } = useAuth();
@@ -71,14 +69,14 @@ const Navbar = () => {
                             )}
                         </div>
                     ) : (
-                        <>
+                        <div className='hidden lg:flex items-center justify-center gap-5'>
                             <Link href='/log-in'>
                                 Log In
                             </Link>
                             <Link href='/sign-up'>
                                 Sign Up
                             </Link>
-                        </>
+                        </div>
                     )
                 }
 
@@ -92,10 +90,19 @@ const Navbar = () => {
                     <IoIosClose />
                 </button>
                 <ul className='w-full h-fit flex flex-col gap-5 mt-20 px-5'>
-                    <li className='text-base text-gray-950'><Link href="/" className='flex gap-2 items-center'><MdSpaceDashboard className='mb-1 text-lg' />Feed</Link></li>
-                    <li className='text-base text-gray-950'><Link href="/categories" className='flex gap-2 items-center'><MdCategory className='mb-1 text-lg' />Categories</Link></li>
-                    <li className='text-base text-gray-950'><Link href="/profile" className='flex gap-2 items-center'><IoIosPerson className='mb-1 text-lg' />Profile</Link></li>
-                    <li className='text-base text-gray-950'><Link href="/new-blog" className='flex gap-2 items-center'><RiAddBoxFill className='mb-1 text-lg' />New Blog</Link></li>
+                    <li className='text-base text-gray-950'><Link href="/" className='flex gap-2 items-center'><MdSpaceDashboard className='text-lg' />Feed</Link></li>
+                    <li className='text-base text-gray-950'><Link href="/categories" className='flex gap-2 items-center'><MdCategory className='text-lg' />Categories</Link></li>
+                    {
+                        accessToken?
+                        <>
+                        <li className='text-base text-gray-950'><Link href="/profile" className='flex gap-2 items-center'><IoIosPerson className='text-lg' />Profile</Link></li>
+                        <li className='text-base text-gray-950'><Link href="/new-blog" className='flex gap-2 items-center'><RiAddBoxFill className='text-lg' />New Blog</Link></li>
+                        </>
+                        :<>
+                        <li className='text-base text-gray-950'><Link href="/log-in" className='flex gap-2 items-center'><IoIosLogIn className='text-lg' />Log In</Link></li>
+                        <li className='text-base text-gray-950'><Link href="/sign-up" className='flex gap-2 items-center'><PiAddressBookTabsFill className='text-lg' />Sign Up</Link></li>
+                        </>
+                    }
 
                 </ul>
                 <button onClick={logout} className='mt-10 h-10 w-[85%] mx-auto bg-gray-950 block rounded-lg text-gray-100 text-sm font-medium'>Log Out</button>
