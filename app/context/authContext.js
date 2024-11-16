@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [accessTokenExpiresAt, setAccessTokenExpiresAt] = useState(Cookies.get('accessTokenExpiresAt'));
     const router = useRouter();
 
-    const login = async (newAccessToken, newRefreshToken, expiresInMinutes = 15) => {
+    const login = async (newAccessToken, newRefreshToken, userId, userFullName, expiresInMinutes = 15) => {
         const expirationTime = new Date(new Date().getTime() + expiresInMinutes * 60000);
 
         setAccessToken(newAccessToken);
@@ -21,6 +21,9 @@ export const AuthProvider = ({ children }) => {
         Cookies.set('accessToken', newAccessToken, { expires: expiresInMinutes / (24 * 60) });
         Cookies.set('refreshToken', newRefreshToken, { expires: 7 });
         Cookies.set('accessTokenExpiresAt', expirationTime);
+
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('userFullName', userFullName);
 
         router.push('/');
     };
@@ -34,18 +37,18 @@ export const AuthProvider = ({ children }) => {
                 },
                 body: JSON.stringify({ refreshToken }),
             });
-    
+
             if (!response.ok) {
                 throw new Error('Failed to refresh access token');
             }
-    
+
             const data = await response.json();
             const newAccessToken = data.accessToken;
             const newExpirationTime = new Date(new Date().getTime() + 15 * 60000);
-    
+
             setAccessToken(newAccessToken);
             setAccessTokenExpiresAt(newExpirationTime);
-    
+
             Cookies.set('accessToken', newAccessToken, { expires: 0.0104 });
             Cookies.set('accessTokenExpiresAt', newExpirationTime);
         } catch (err) {
@@ -60,6 +63,8 @@ export const AuthProvider = ({ children }) => {
         Cookies.remove('accessToken');
         Cookies.remove('refreshToken');
         Cookies.remove('accessTokenExpiresAt');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userFullName');
         router.push('/log-in');
     };
 

@@ -7,18 +7,37 @@ import { MdSpaceDashboard, MdCategory } from "react-icons/md";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { RiAddBoxFill } from "react-icons/ri";
 import { PiAddressBookTabsFill } from "react-icons/pi";
+import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
     const { accessToken, logout } = useAuth();
     const [isMounted, setIsMounted] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [navbarBg, setNavbarBg] = useState(false);
+    const pathname = usePathname();
 
     const toggleDropdown = () => setDropdownOpen((prev) => !prev);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(prevState => !prevState);
     };
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 1) {
+                setNavbarBg(true);
+            } else {
+                setNavbarBg(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     useEffect(() => {
         setIsMounted(true);
@@ -29,22 +48,40 @@ const Navbar = () => {
     }
 
     return (
-        <nav className='w-[calc(100vw-16px)] h-16 border-b flex items-center justify-between gap-5 absolute top-2 left-2  px-5'>
+        <nav className={`w-[calc(100vw-16px)] h-16 flex items-center justify-between gap-5 fixed top-0 left-2 z-50 px-5 lg:px-20 ${navbarBg ? 'bg-white' : pathname === '/' ? 'bg-transparent' : 'bg-white'}`}>
             <Link href='/'>
-                <h1 className='text-xl font-medium pacifico'>Inkling</h1>
+                <h1 className={`text-xl font-medium pacifico ${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'}`}>Inkling</h1>
             </Link>
+            <ul className='h-full w-fit hidden lg:flex items-center justify-center gap-5'>
+                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                    <Link href='/'>Feed</Link>
+                </li>
+                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                    <Link href='/categories'>Categories</Link>
+                </li>
+                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                    <Link href='/new-blog'>New Blog</Link>
+                </li>
+                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                    <a to='https://sayandip-adhikary.vercel.app/' target='_blank'>Developer</a>
+                </li>
+                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                    <Link href='/about-inkling'>About Inkling</Link>
+                </li>
+                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                    <Link href='/terms-and-conditions'>Terms & Conditions</Link>
+                </li>
+            </ul>
             <div className='h-full w-fit flex items-center gap-5'>
                 {
                     accessToken ? (
-                        <div className='h-10 w-10 rounded-full bg-pink-400 relative hidden lg:block'>
-                            <button
-                                onClick={toggleDropdown}
-                                onMouseEnter={() => setDropdownOpen(true)}
-                                onMouseLeave={() => setDropdownOpen(false)}
-                                className='h-full w-full rounded-full text-xs'
+                        <div className={`h-8 w-20 rounded-lg ${navbarBg ? 'bg-gray-950 text-white hover:bg-gray-800' : pathname === '/' ? 'bg-white text-gray-950 hover:bg-gray-100' : 'bg-gray-950 text-white hover:bg-gray-800'} relative hidden lg:block`}>
+                            <Link
+                                href='/profile'
+                                className='h-full w-full rounded-lg text-xs font-medium flex items-center justify-center'
                             >
-                                User
-                            </button>
+                                Profile
+                            </Link>
                             {dropdownOpen && (
                                 <div
                                     onMouseEnter={() => setDropdownOpen(true)}
@@ -70,38 +107,38 @@ const Navbar = () => {
                         </div>
                     ) : (
                         <div className='hidden lg:flex items-center justify-center gap-5'>
-                            <Link href='/log-in'>
+                            <Link href='/log-in' className={`h-8 w-20 rounded-lg flex items-center justify-center text-xs font-medium ${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'}`}>
                                 Log In
                             </Link>
-                            <Link href='/sign-up'>
+                            <Link href='/sign-up' className={`h-8 w-20 ${navbarBg ? 'bg-gray-950 text-white hover:bg-gray-800' : pathname === '/' ? 'bg-white text-gray-950 hover:bg-gray-100' : 'bg-gray-950 text-white hover:bg-gray-800'} rounded-lg flex items-center justify-center text-xs font-medium`}>
                                 Sign Up
                             </Link>
                         </div>
                     )
                 }
 
-                <button onClick={toggleSidebar} className='text-2xl lg:hidden text-gray-900 active:bg-gray-400 rounded-full p-1 transition-all duration-200'>
+                <button onClick={toggleSidebar} className={`text-2xl lg:hidden ${navbarBg ? 'text-gray-900' : pathname === '/' ? 'text-gray-100' : 'text-gray-950'} rounded-full p-1 transition-all duration-200`}>
                     <HiMenuAlt3 />
                 </button>
 
             </div>
             <aside className={`fixed top-0 right-0 h-full bg-white text-white z-10 w-64 transform ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300`}>
-                <button onClick={toggleSidebar} className='absolute top-5 right-5 text-gray-950 text-3xl p-1'>
+                <button onClick={toggleSidebar} className='absolute top-4 right-5 text-gray-950 text-3xl p-1'>
                     <IoIosClose />
                 </button>
                 <ul className='w-full h-fit flex flex-col gap-5 mt-20 px-5'>
                     <li className='text-base text-gray-950'><Link href="/" className='flex gap-2 items-center'><MdSpaceDashboard className='text-lg' />Feed</Link></li>
                     <li className='text-base text-gray-950'><Link href="/categories" className='flex gap-2 items-center'><MdCategory className='text-lg' />Categories</Link></li>
                     {
-                        accessToken?
-                        <>
-                        <li className='text-base text-gray-950'><Link href="/profile" className='flex gap-2 items-center'><IoIosPerson className='text-lg' />Profile</Link></li>
-                        <li className='text-base text-gray-950'><Link href="/new-blog" className='flex gap-2 items-center'><RiAddBoxFill className='text-lg' />New Blog</Link></li>
-                        </>
-                        :<>
-                        <li className='text-base text-gray-950'><Link href="/log-in" className='flex gap-2 items-center'><IoIosLogIn className='text-lg' />Log In</Link></li>
-                        <li className='text-base text-gray-950'><Link href="/sign-up" className='flex gap-2 items-center'><PiAddressBookTabsFill className='text-lg' />Sign Up</Link></li>
-                        </>
+                        accessToken ?
+                            <>
+                                <li className='text-base text-gray-950'><Link href="/profile" className='flex gap-2 items-center'><IoIosPerson className='text-lg' />Profile</Link></li>
+                                <li className='text-base text-gray-950'><Link href="/new-blog" className='flex gap-2 items-center'><RiAddBoxFill className='text-lg' />New Blog</Link></li>
+                            </>
+                            : <>
+                                <li className='text-base text-gray-950'><Link href="/log-in" className='flex gap-2 items-center'><IoIosLogIn className='text-lg' />Log In</Link></li>
+                                <li className='text-base text-gray-950'><Link href="/sign-up" className='flex gap-2 items-center'><PiAddressBookTabsFill className='text-lg' />Sign Up</Link></li>
+                            </>
                     }
 
                 </ul>

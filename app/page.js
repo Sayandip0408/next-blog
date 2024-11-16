@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <main className='p-2 relative'>
       <Navbar />
-      <div className='pt-[72px]'>
+      <div className='pt-[72px] h-[800px] bg-gray-600 rounded-lg'>
         <p>This is Home Page</p>
         {accessToken ? (
           <p>You are logged in</p>
