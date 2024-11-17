@@ -16,9 +16,17 @@ const NewBlog = () => {
     const [bannerTitle, setBannerTitle] = useState('');
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const userId = localStorage.getItem('userId');
-    const userFullName = localStorage.getItem('userFullName');
+    const [userId, setUserId] = useState(null);
+    const [userFullName, setUserFullName] = useState(null);
     const router = useRouter();
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setUserId(localStorage.getItem('userId'));
+            setUserFullName(localStorage.getItem('userFullName'));
+        }
+    }, []);
+
 
     const config = {
         placeholder: 'Start Typing...'

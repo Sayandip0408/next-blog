@@ -43,7 +43,7 @@ const SignUp = () => {
         try {
             const data = await response.json();
             setError(false);
-            login(data.accessToken, data.refreshToken);
+            login(data.accessToken, data.refreshToken, data.userId, data.userFullName);
         } catch (error) {
             console.error('Error parsing JSON:', error);
             setError(true);

@@ -23,7 +23,10 @@ export async function POST(request) {
     const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' });
     const refreshToken = jwt.sign({ userId: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
 
-    return new Response(JSON.stringify({ accessToken, refreshToken }), { status: 201 });
+    const userId = user._id;
+    const userFullName = `${user.firstName} ${user.lastName}`
+
+    return new Response(JSON.stringify({ accessToken, refreshToken, userId, userFullName }), { status: 200 });
   } catch (error) {
     return new Response('Error registering user', { status: 500 });
   }
