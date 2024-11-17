@@ -1,6 +1,6 @@
 'use client'
 import dynamic from 'next/dynamic';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ProtectedRoute from '../components/ProtectedRoute'
 import Navbar from '../components/Navbar'
 import { useRouter } from 'next/navigation';
