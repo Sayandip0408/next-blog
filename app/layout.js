@@ -1,5 +1,7 @@
 import { AuthProvider } from "./context/authContext";
 import "./globals.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export const metadata = {
   title: "Inkling",

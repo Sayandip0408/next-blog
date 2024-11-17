@@ -49,36 +49,38 @@ const Navbar = () => {
 
     return (
         <nav className={`w-[calc(100vw-16px)] h-16 flex items-center justify-between gap-5 fixed top-0 left-2 z-50 px-5 lg:px-20 ${navbarBg ? 'bg-white' : pathname === '/' ? 'bg-transparent' : 'bg-white'}`}>
-            <Link href='/'>
-                <h1 className={`text-xl font-medium pacifico ${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'}`}>Inkling</h1>
-            </Link>
-            <ul className='h-full w-fit hidden lg:flex items-center justify-center gap-5'>
-                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
-                    <Link href='/'>Feed</Link>
-                </li>
-                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
-                    <Link href='/categories'>Categories</Link>
-                </li>
-                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
-                    <Link href='/new-blog'>New Blog</Link>
-                </li>
-                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
-                    <a to='https://sayandip-adhikary.vercel.app/' target='_blank'>Developer</a>
-                </li>
-                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
-                    <Link href='/about-inkling'>About Inkling</Link>
-                </li>
-                <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
-                    <Link href='/terms-and-conditions'>Terms & Conditions</Link>
-                </li>
-            </ul>
+            <span className='h-full flex items-center gap-5'>
+                <Link href='/' className='h-full flex items-center'>
+                    <h1 className={`text-xl md:text-2xl font-medium pacifico mb-1 ${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'}`}>Inkling</h1>
+                </Link>
+                <ul className='h-full w-fit hidden lg:flex items-center justify-center gap-5 text-sm xl:text-base'>
+                    <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                        <Link href='/'>Feed</Link>
+                    </li>
+                    <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                        <Link href='/categories'>Categories</Link>
+                    </li>
+                    <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                        <Link href='/new-blog'>New Blog</Link>
+                    </li>
+                    <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                        <a to='https://sayandip-adhikary.vercel.app/' target='_blank'>Developer</a>
+                    </li>
+                    <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                        <Link href='/about-inkling'>About Inkling</Link>
+                    </li>
+                    <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
+                        <Link href='/terms-and-conditions'>Terms & Conditions</Link>
+                    </li>
+                </ul>
+            </span>
             <div className='h-full w-fit flex items-center gap-5'>
                 {
                     accessToken ? (
                         <div className={`h-8 w-20 rounded-lg ${navbarBg ? 'bg-gray-950 text-white hover:bg-gray-800' : pathname === '/' ? 'bg-white text-gray-950 hover:bg-gray-100' : 'bg-gray-950 text-white hover:bg-gray-800'} relative hidden lg:block`}>
                             <Link
                                 href='/profile'
-                                className='h-full w-full rounded-lg text-xs font-medium flex items-center justify-center'
+                                className='h-full w-full rounded-lg text-sm font-medium flex items-center justify-center'
                             >
                                 Profile
                             </Link>
