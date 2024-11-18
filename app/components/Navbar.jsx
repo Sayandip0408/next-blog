@@ -2,22 +2,22 @@
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../context/authContext';
-import { IoIosClose, IoIosLogOut, IoIosPerson, IoIosLogIn } from "react-icons/io";
-import { MdSpaceDashboard, MdCategory } from "react-icons/md";
+import { IoIosClose, IoIosPerson, IoIosLogIn } from "react-icons/io";
+import { MdSpaceDashboard, MdCategory, MdPolicy } from "react-icons/md";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { RiAddBoxFill } from "react-icons/ri";
 import { PiAddressBookTabsFill } from "react-icons/pi";
 import { usePathname } from 'next/navigation';
+import { FaLaptopCode } from "react-icons/fa6";
+import { BsInfoSquareFill } from "react-icons/bs";
 
 const Navbar = () => {
     const { accessToken, logout } = useAuth();
     const [isMounted, setIsMounted] = useState(false);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [navbarBg, setNavbarBg] = useState(false);
     const pathname = usePathname();
 
-    const toggleDropdown = () => setDropdownOpen((prev) => !prev);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(prevState => !prevState);
@@ -84,28 +84,6 @@ const Navbar = () => {
                             >
                                 Profile
                             </Link>
-                            {dropdownOpen && (
-                                <div
-                                    onMouseEnter={() => setDropdownOpen(true)}
-                                    onMouseLeave={() => setDropdownOpen(false)}
-                                    className="absolute right-0 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5"
-                                >
-                                    <ul className="py-2">
-                                        <li>
-                                            <button onClick={logout} className="flex items-center w-full h-12 px-2 text-gray-700 text-sm font-medium hover:bg-gray-100 gap-1">
-                                                <IoIosLogOut className='text-lg' />
-                                                Logout
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <Link href='/profile' className="flex items-center w-full h-12 px-2 text-gray-700 text-sm font-medium hover:bg-gray-100 gap-1">
-                                                <IoIosPerson className='text-lg' />
-                                                Profile
-                                            </Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            )}
                         </div>
                     ) : (
                         <div className='hidden lg:flex items-center justify-center gap-5'>
@@ -142,7 +120,9 @@ const Navbar = () => {
                                 <li className='text-base text-gray-950'><Link href="/sign-up" className='flex gap-2 items-center'><PiAddressBookTabsFill className='text-lg' />Sign Up</Link></li>
                             </>
                     }
-
+                    <li className='text-base text-gray-950'><a to='https://sayandip-adhikary.vercel.app/' target='_blank' className='flex gap-2 items-center'><FaLaptopCode className='text-lg' />Developer</a></li>
+                    <li className='text-base text-gray-950'><Link href="/about-inkling" className='flex gap-2 items-center'><BsInfoSquareFill className='text-lg' />About Inkling</Link></li>
+                    <li className='text-base text-gray-950'><Link href="/terms-and-conditions" className='flex gap-2 items-center'><MdPolicy className='text-lg' />Terms & Conditions</Link></li>
                 </ul>
                 <button onClick={logout} className='mt-10 h-10 w-[85%] mx-auto bg-gray-950 block rounded-lg text-gray-100 text-sm font-medium'>Log Out</button>
                 <p className='text-gray-500 text-xs font-medium text-center absolute bottom-8 w-full'>Developed by <br></br><a href='https://sayandip-adhikary.vercel.app/' target='_blank' className='text-gray-700 pacifico underline text-base'>SayanDip Adhikary</a></p>

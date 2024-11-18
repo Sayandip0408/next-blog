@@ -98,7 +98,7 @@ const NewBlog = () => {
                             <label className='uppercase text-xs lg:text-sm font-medium text-gray-700'>Category:</label>
                             <input type='text' placeholder='Choose a category' required value={category} onChange={(e) => setCategory(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm lg:text-base font-medium' />
                         </div>
-                        <div className='p-2 w-full h-fit flex flex-col md:flex-row gap-5'>
+                        <div className='p-2 w-full h-fit flex flex-col md:flex-row md:items-center gap-5'>
                             <CldUploadWidget uploadPreset="inkling" onSuccess={handleImgUpload}>
                                 {({ open }) => {
                                     return (
@@ -109,7 +109,7 @@ const NewBlog = () => {
                                 }}
                             </CldUploadWidget>
                             {
-                                bannerImg !== '' ? <p className='text-sm'>{bannerImg}</p> : <></>
+                                bannerImg !== '' ? <p className='text-sm line-clamp-1'><span className='uppercase font-medium'>url: </span>{bannerImg}</p> : <></>
                             }
                         </div>
                         <div className='w-full h-fit flex flex-col'>
