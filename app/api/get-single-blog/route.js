@@ -12,13 +12,15 @@ export async function GET(req) {
     }
 
     const sanitizedBlogTitle = blogTitle.replace(/-/g, ' ');
+    const sanitizedBlogCategory = categoryVal.replace(/-/g, ' ');
+
 
     try {
         await connectDB();
 
-        const blogs = await Blog.find({ category: categoryVal });
+        const blogs = await Blog.find({ category: sanitizedBlogCategory });
         if (!blogs || blogs.length === 0) {
-            return new Response(`No blogs available in category ${categoryVal}`, { status: 400 });
+            return new Response(`No blogs available in category ${sanitizedBlogCategory}`, { status: 400 });
         }
 
         const specificBlog = blogs.find(

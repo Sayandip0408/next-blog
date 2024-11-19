@@ -124,7 +124,9 @@ const Navbar = () => {
                     <li className='text-base text-gray-950'><Link href="/about-inkling" className='flex gap-2 items-center'><BsInfoSquareFill className='text-lg' />About Inkling</Link></li>
                     <li className='text-base text-gray-950'><Link href="/terms-and-conditions" className='flex gap-2 items-center'><MdPolicy className='text-lg' />Terms & Conditions</Link></li>
                 </ul>
-                <button onClick={logout} className='mt-10 h-10 w-[85%] mx-auto bg-gray-950 block rounded-lg text-gray-100 text-sm font-medium'>Log Out</button>
+                {
+                    accessToken && <button onClick={logout} className='mt-10 h-10 w-[85%] mx-auto bg-gray-950 block rounded-lg text-gray-100 text-sm font-medium'>Log Out</button>
+                }
                 <p className='text-gray-500 text-xs font-medium text-center absolute bottom-8 w-full'>Developed by <br></br><a href='https://sayandip-adhikary.vercel.app/' target='_blank' className='text-gray-700 pacifico underline text-base'>SayanDip Adhikary</a></p>
             </aside>
             {isSidebarOpen && (

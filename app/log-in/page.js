@@ -9,6 +9,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [validEmail, setValidEmail] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
     const { login, accessToken } = useAuth();
     const router = useRouter();
@@ -21,7 +22,7 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
+        setIsLoading(true);
         const response = await fetch('/api/auth/login', {
             method: 'POST',
             headers: {
@@ -34,6 +35,7 @@ const Login = () => {
             const errorText = await response.text();
             console.error(errorText);
             setError(true);
+            setIsLoading(false);
             return;
         }
 
@@ -41,9 +43,11 @@ const Login = () => {
             const data = await response.json();
             setError(false);
             login(data.accessToken, data.refreshToken, data.userId, data.userFullName);
+            setIsLoading(false);
         } catch (error) {
             console.error('Error parsing JSON:', error);
             setError(true);
+            setIsLoading(false);
         }
     }
 
@@ -63,9 +67,15 @@ const Login = () => {
                     <label className='uppercase text-xs font-medium text-gray-500'>password</label>
                     <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm' />
                 </div>
-                <button type='submit' className={`w-full h-12 ${email === '' || password === '' ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-700 text-gray-200'} uppercase text-sm`}>
-                    Log In
-                </button>
+                {
+                    isLoading ?
+                        <button className={`w-full h-12 bg-gray-200 text-gray-500 uppercase text-sm`}>
+                            Verifying
+                        </button> :
+                        <button type='submit' className={`w-full h-12 ${email === '' || password === '' ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-700 text-gray-200'} uppercase text-sm`}>
+                            Log In
+                        </button>
+                }
                 {
                     error ? <p className='text-red-600 text-xs lowercase mt-2 text-center font-medium'>Wrong email or password</p> : <></>
                 }

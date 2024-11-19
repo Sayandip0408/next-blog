@@ -22,6 +22,13 @@ const NewBlog = () => {
     const [userFullName, setUserFullName] = useState(null);
     const router = useRouter();
 
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        if (/^[a-zA-Z0-9 ]*$/.test(value)) {
+          setTitle(value);
+        }
+      };
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             setUserId(localStorage.getItem('userId'));
@@ -78,8 +85,8 @@ const NewBlog = () => {
                 <div className='py-[72px]'>
                     <form className='w-full max-w-[1000px] h-fit flex flex-col gap-5 mx-auto md:px-5' onSubmit={handleSubmit}>
                         <div className='w-full h-fit flex flex-col'>
-                            <label className='uppercase text-xs lg:text-sm font-medium text-gray-700'>Title:</label>
-                            <input type='text' placeholder='Give a title to your blog' required value={title} onChange={(e) => setTitle(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm lg:text-base font-medium' />
+                            <label className='uppercase text-xs lg:text-sm font-medium text-gray-700'>Title: <span className='lowercase text-gray-500 font-normal'>(special characters are not allowed)</span></label>
+                            <input type='text' placeholder='Give a title to your blog' required value={title} onChange={handleInputChange} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm lg:text-base font-medium' />
                         </div>
                         <div>
                             <h3 className='uppercase text-xs lg:text-sm font-medium text-gray-700'>Content:</h3>

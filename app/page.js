@@ -74,7 +74,7 @@ const Home = () => {
         ) : blogs.length > 0 ? (
           <Slider {...settings} className='w-full h-full mx-auto rounded-lg'>
             {blogs.map((blog) => (
-              <Link key={blog._id} href={`/${blog.category}/${blog._id}/${sanitizeTitle(blog.title)}`}>
+              <Link key={blog._id} href={`/${sanitizeTitle(blog.category)}/${blog._id}/${sanitizeTitle(blog.title)}`}>
                 <div
                   key={blog._id}
                   className="rounded-lg h-[300px] md:h-[80vh] w-full relative">
