@@ -8,6 +8,7 @@ import { FaAngleRight } from "react-icons/fa6";
 import { AiFillHome } from "react-icons/ai";
 import Image from 'next/image';
 import Content from '@/app/components/Content';
+import ContentSkeleton from '@/app/components/ContentSkeleton';
 
 const Blog = () => {
     const pathName = usePathname();
@@ -60,7 +61,7 @@ const Blog = () => {
     }, [categoryVal, blogId, blogTitle]);
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <ContentSkeleton />;
     }
 
     if (error) {

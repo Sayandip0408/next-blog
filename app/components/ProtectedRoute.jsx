@@ -3,6 +3,7 @@
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import BlogFormSkeleton from './BlogFormSkeleton';
 
 export default function ProtectedRoute({ children }) {
     const { accessToken } = useAuth();
@@ -20,7 +21,7 @@ export default function ProtectedRoute({ children }) {
     }, [accessToken, isMounted, router]);
 
     if (!isMounted || !accessToken) {
-        return <p>Loading...</p>;
+        return <BlogFormSkeleton/>;
     }
 
     return children;

@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaAngleRight } from "react-icons/fa6";
 import { AiFillHome } from "react-icons/ai";
+import CategorySkeleton from '../components/CategorySkeleton'
 
 const Category = () => {
     const [categoryData, setCategoryData] = useState(null);
@@ -40,7 +41,9 @@ const Category = () => {
     }, []);
 
     if (loading) {
-        return <p>Loading...</p>;
+        return (
+            <CategorySkeleton />
+        );
     }
 
     if (error) {

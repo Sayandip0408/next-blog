@@ -58,14 +58,14 @@ const Login = () => {
             <form className='w-full md:w-[450px] h-fit p-5 flex flex-col gap-5' onSubmit={handleLogin}>
                 <div className='w-full h-fit flex flex-col'>
                     <label className='uppercase text-xs font-medium text-gray-500'>email address</label>
-                    <input type='email' placeholder='name@example.com' value={email} onChange={(e) => setEmail(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm' />
+                    <input type='email' placeholder='name@example.com' required value={email} onChange={(e) => setEmail(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm' />
                     {
                         !validEmail ? <p className='text-red-600 text-xs lowercase mt-2'>invalid email type</p> : <></>
                     }
                 </div>
                 <div className='w-full h-fit flex flex-col'>
                     <label className='uppercase text-xs font-medium text-gray-500'>password</label>
-                    <input type='password' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm' />
+                    <input type='password' placeholder='Password' required value={password} onChange={(e) => setPassword(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm' />
                 </div>
                 {
                     isLoading ?
@@ -80,7 +80,8 @@ const Login = () => {
                     error ? <p className='text-red-600 text-xs lowercase mt-2 text-center font-medium'>Wrong email or password</p> : <></>
                 }
             </form>
-            <p className='text-gray-700 text-sm font-medium pacifico'>Inkling <Link href='/' className='text-gray-500 underline'>Terms & Conditions</Link></p>
+            <p>Don&apos;t have an account? <Link href='/sign-up' className='font-medium underline'>Sign up</Link></p>
+            {/* <p className='text-gray-700 text-sm font-medium pacifico'>Inkling <Link href='/' className='text-gray-500 underline'>Terms & Conditions</Link></p> */}
             <p className='text-gray-500 text-sm font-medium'>Developed by <a href='https://sayandip-adhikary.vercel.app/' target='_blank' className='text-gray-700 pacifico underline'>SayanDip Adhikary</a></p>
         </main>
     )

@@ -91,7 +91,6 @@ const Home = () => {
                         <p className="text-sm md:text-base text-white line-clamp-2 text-right">{formatDate(blog.createdAt)}</p>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </Link>

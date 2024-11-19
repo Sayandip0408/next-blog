@@ -7,6 +7,8 @@ import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { FaAngleRight } from "react-icons/fa6";
 import { AiFillHome } from "react-icons/ai";
+import CategorySkeleton from '@/app/components/CategorySkeleton';
+import SingleCategorySkeleton from '@/app/components/SingleCategorySkeleton';
 
 const Category = () => {
     const [blogs, setBlogs] = useState([]);
@@ -62,7 +64,7 @@ const Category = () => {
     }, []);
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <SingleCategorySkeleton />;
     }
 
     if (error) {
@@ -71,7 +73,7 @@ const Category = () => {
 
     return (
         <ProtectedRoute>
-            <main className='px-2 pb-2 pt-20 relative'>
+            <main className='px-2 pb-2 pt-20 relative min-h-[80vh]'>
                 <Navbar />
                 <div className='h-fit w-full max-w-[900px] mx-auto flex items-center gap-1 text-gray-600 font-medium border-b-2 border-yellow-500 pb-2'>
                     <Link href='/' className='text-yellow-500'><AiFillHome /></Link>

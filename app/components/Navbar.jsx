@@ -64,7 +64,7 @@ const Navbar = () => {
                         <Link href='/new-blog'>New Blog</Link>
                     </li>
                     <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
-                        <a to='https://sayandip-adhikary.vercel.app/' target='_blank'>Developer</a>
+                        <a href='https://sayandip-adhikary.vercel.app/' target='_blank'>Developer</a>
                     </li>
                     <li className={`${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'} hover:underline underline-offset-2 cursor-pointer`}>
                         <Link href='/about-inkling'>About Inkling</Link>
@@ -87,11 +87,8 @@ const Navbar = () => {
                         </div>
                     ) : (
                         <div className='hidden lg:flex items-center justify-center gap-5'>
-                            <Link href='/log-in' className={`h-8 w-20 rounded-lg flex items-center justify-center text-xs font-medium ${navbarBg ? 'text-gray-950' : pathname === '/' ? 'text-white' : 'text-gray-950'}`}>
+                            <Link href='/log-in' className={`h-8 w-20 ${navbarBg ? 'bg-gray-950 text-white hover:bg-gray-800' : pathname === '/' ? 'bg-white text-gray-950 hover:bg-gray-100' : 'bg-gray-950 text-white hover:bg-gray-800'} rounded-lg flex items-center justify-center text-xs font-medium`}>
                                 Log In
-                            </Link>
-                            <Link href='/sign-up' className={`h-8 w-20 ${navbarBg ? 'bg-gray-950 text-white hover:bg-gray-800' : pathname === '/' ? 'bg-white text-gray-950 hover:bg-gray-100' : 'bg-gray-950 text-white hover:bg-gray-800'} rounded-lg flex items-center justify-center text-xs font-medium`}>
-                                Sign Up
                             </Link>
                         </div>
                     )
@@ -120,7 +117,7 @@ const Navbar = () => {
                                 <li className='text-base text-gray-950'><Link href="/sign-up" className='flex gap-2 items-center'><PiAddressBookTabsFill className='text-lg' />Sign Up</Link></li>
                             </>
                     }
-                    <li className='text-base text-gray-950'><a to='https://sayandip-adhikary.vercel.app/' target='_blank' className='flex gap-2 items-center'><FaLaptopCode className='text-lg' />Developer</a></li>
+                    <li className='text-base text-gray-950'><a href='https://sayandip-adhikary.vercel.app/' target='_blank' className='flex gap-2 items-center'><FaLaptopCode className='text-lg' />Developer</a></li>
                     <li className='text-base text-gray-950'><Link href="/about-inkling" className='flex gap-2 items-center'><BsInfoSquareFill className='text-lg' />About Inkling</Link></li>
                     <li className='text-base text-gray-950'><Link href="/terms-and-conditions" className='flex gap-2 items-center'><MdPolicy className='text-lg' />Terms & Conditions</Link></li>
                 </ul>
