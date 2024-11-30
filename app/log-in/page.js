@@ -81,7 +81,6 @@ const Login = () => {
                 }
             </form>
             <p>Don&apos;t have an account? <Link href='/sign-up' className='font-medium underline'>Sign up</Link></p>
-            {/* <p className='text-gray-700 text-sm font-medium pacifico'>Inkling <Link href='/' className='text-gray-500 underline'>Terms & Conditions</Link></p> */}
             <p className='text-gray-500 text-sm font-medium'>Developed by <a href='https://sayandip-adhikary.vercel.app/' target='_blank' className='text-gray-700 pacifico underline'>SayanDip Adhikary</a></p>
         </main>
     )
