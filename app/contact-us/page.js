@@ -17,7 +17,7 @@ const ContactUs = () => {
                         Get in Touch
                     </h2>
                     <p className="text-sm md:text-lg lg:text-xl text-gray-200 max-w-xl mx-auto">
-                        Have feedback, questions, or collaboration ideas? We'd love to hear from you.
+                        Have feedback, questions, or collaboration ideas? We&apos;d love to hear from you.
                     </p>
                 </div>
             </div>
