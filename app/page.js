@@ -9,6 +9,8 @@ import Link from 'next/link';
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [error, setError] = useState(null);
+  const [randomBlogs, setRandomBlogs] = useState([]);
+  const [popularBlogs, setPopularBlogs] = useState([]);
 
   const formatDate = (dateString) => {
     const today = new Date();
@@ -32,6 +34,42 @@ const Home = () => {
       .trim()
       .replace(/\s+/g, '-');
   };
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch('/api/get-random-blogs');
+        if (!response.ok) {
+          throw new Error('Failed to fetch blogs');
+        }
+        const objResponse = await response.json();
+        setRandomBlogs(objResponse.data);
+      } catch (err) {
+        console.error(err);
+        setError('Unable to load blogs');
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch('/api/get-random-blogs');
+        if (!response.ok) {
+          throw new Error('Failed to fetch blogs');
+        }
+        const objResponse = await response.json();
+        setPopularBlogs(objResponse.data);
+      } catch (err) {
+        console.error(err);
+        setError('Unable to load blogs');
+      }
+    };
+
+    fetchBlogs();
+  }, []);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -68,7 +106,7 @@ const Home = () => {
   return (
     <main className='p-2 relative'>
       <Navbar />
-      <div className='h-[fit] w-full rounded-lg'>
+      <div className='h-fit w-full rounded-lg'>
         {error ? (
           <p className='text-red-500'>{error}</p>
         ) : blogs.length > 0 ? (
@@ -99,6 +137,44 @@ const Home = () => {
         ) : (
           <HeroSkeleton />
         )}
+        <section className='h-fit w-full rounded-lg grid grid-cols-1 md:grid-cols-3 gap-5'>
+          <div className='md:col-span-2 p-2 rounded-lg'>
+            <h3 className='font-semibold capitalize lg:text-lg'>~ must read</h3>
+            <div className='h-fit w-full grid grid-cols-1 md:grid-cols-2 gap-5'>
+              {
+                randomBlogs.map((blog) => (
+                  <Link key={blog._id} href={`/${sanitizeTitle(blog.category)}/${blog._id}/${sanitizeTitle(blog.title)}`} className='rounded-lg w-full h-24 lg:h-28 grid grid-cols-4 hover:bg-gray-100'>
+                    <Image src={blog.img_url} alt='blog_img' height={200} width={200} className='h-full rounded-l-lg col-span-1' />
+                    <div className='border rounded-r-lg col-span-3 h-full w-full flex flex-col justify-between px-1'>
+                      <h3 className='line-clamp-1 font-semibold'>{blog.title}</h3>
+                      <p className='line-clamp-1 text-sm font-medium'>{blog.synopsis}</p>
+                      <p className='line-clamp-1 text-sm font-medium text-gray-500'>{blog.author}</p>
+                      <p className='line-clamp-1 text-sm font-medium text-gray-500'>{formatDate(blog.createdAt)}</p>
+                    </div>
+                  </Link>
+                ))
+              }
+            </div>
+          </div>
+          <div className='lg:col-span-1 p-2 rounded-lg'>
+            <h3 className='font-semibold capitalize lg:text-lg'>~ Most popular</h3>
+            <div className='h-fit w-full grid grid-cols-1 gap-5'>
+            {
+              popularBlogs.map((blog) => (
+                <Link key={blog._id} href={`/${sanitizeTitle(blog.category)}/${blog._id}/${sanitizeTitle(blog.title)}`} className='rounded-lg w-full h-24 lg:h-28 grid grid-cols-4 hover:bg-gray-100'>
+                    <Image src={blog.img_url} alt='blog_img' height={200} width={200} className='h-full rounded-l-lg col-span-1' />
+                    <div className='border rounded-r-lg col-span-3 h-full w-full flex flex-col justify-between px-1'>
+                      <h3 className='line-clamp-1 font-semibold'>{blog.title}</h3>
+                      <p className='line-clamp-1 text-sm font-medium'>{blog.synopsis}</p>
+                      <p className='line-clamp-1 text-sm font-medium text-gray-500'>{blog.author}</p>
+                      <p className='line-clamp-1 text-sm font-medium text-gray-500'>{formatDate(blog.createdAt)}</p>
+                    </div>
+                  </Link>
+                ))
+              }
+              </div>
+          </div>
+        </section>
       </div>
     </main>
   );
