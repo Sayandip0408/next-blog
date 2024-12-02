@@ -1,7 +1,5 @@
 "use client";
 import React from "react";
-import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt } from "react-icons/fa";
-import Link from "next/link";
 import ContactGetInTouch from "../components/ContactGetInTouch";
 import Navbar from "../components/Navbar";
 

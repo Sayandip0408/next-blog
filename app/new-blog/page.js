@@ -36,11 +36,6 @@ const NewBlog = () => {
         }
     }, []);
 
-
-    const config = {
-        placeholder: 'Start Typing...'
-    };
-
     const handleImgUpload = (result) => {
         if (result && result.info) {
             setBannerImg(result.info.secure_url);
@@ -78,6 +73,10 @@ const NewBlog = () => {
         router.push('/');
     }
 
+    if (error) {
+        return <p>Error: {error}</p>;
+    }
+
     return (
         <ProtectedRoute>
             <main className='p-2 relative'>
@@ -89,11 +88,10 @@ const NewBlog = () => {
                             <input type='text' placeholder='Give a title to your blog' required value={title} onChange={handleInputChange} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm lg:text-base font-medium' />
                         </div>
                         <div>
-                            <h3 className='uppercase text-xs lg:text-sm font-medium text-gray-700'>Content:</h3>
+                            <h3 className='uppercase text-xs lg:text-sm font-medium text-gray-700'>Content: <span className='lowercase text-gray-500 font-normal'>(do not add images in content)</span></h3>
                             <JoditEditor
                                 ref={editor}
                                 value={content}
-                                // config={config}
                                 onChange={(newContent) => setContent(newContent)}
                             />
                         </div>

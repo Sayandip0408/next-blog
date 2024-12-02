@@ -69,7 +69,7 @@ const Login = () => {
                 </div>
                 {
                     isLoading ?
-                        <button className={`w-full h-12 bg-gray-200 text-gray-500 uppercase text-sm`}>
+                        <button className={`w-full h-12 bg-gray-200 text-gray-500 uppercase text-sm cursor-wait`}>
                             Verifying
                         </button> :
                         <button type='submit' className={`w-full h-12 ${email === '' || password === '' ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-700 text-gray-200'} uppercase text-sm`}>

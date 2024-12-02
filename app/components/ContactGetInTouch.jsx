@@ -5,8 +5,6 @@ import Loader from '../components/Loader';
 import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 
-
-
 const ContactGetInTouch = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -107,10 +105,10 @@ const ContactGetInTouch = () => {
                     dedicated support team. We&apos;re here to help!
                 </p>
                 <div className="flex items-center gap-4">
-                    <a href="https://www.facebook.com/yourpage" target="_blank" className="bg-gray-300 p-2 rounded-full hover:bg-blue-500 text-gray-800 hover:text-white transition duration-300">
+                    <a href="https://www.facebook.com/sayandip.adhikary.96" target="_blank" className="bg-gray-300 p-2 rounded-full hover:bg-blue-500 text-gray-800 hover:text-white transition duration-300">
                         <FaFacebook className="" />
                     </a>
-                    <a href="https://www.instagram.com/yourpage" target="_blank" className="bg-gray-300 p-2 rounded-full hover:bg-pink-500 text-gray-800 hover:text-white transition duration-300">
+                    <a href="https://www.instagram.com/sayan.dip7/" target="_blank" className="bg-gray-300 p-2 rounded-full hover:bg-pink-500 text-gray-800 hover:text-white transition duration-300">
                         <FaInstagram className="" />
                     </a>
                 </div>
