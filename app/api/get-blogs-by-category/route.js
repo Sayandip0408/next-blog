@@ -12,7 +12,7 @@ export async function GET(req) {
 
         const blogs = await Blog.find({ category: sanitizedCategory });
         if (blogs.length === 0) {
-            return new Response(`No blogs available in category ${sanitizedCategory}`, { status: 400 });
+            return new Response(JSON.stringify({ data: blogs }), { status: 200 });
         }
 
         return new Response(JSON.stringify({ data: blogs }), { status: 200 });

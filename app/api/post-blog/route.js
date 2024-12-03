@@ -17,7 +17,7 @@ export async function POST(request) {
             return new Response('Not authorized to post blogs', { status: 400 });
         }
 
-        const blog = new Blog({ user: userId, category, title, content, img_url, img_title, author, synopsis });
+        const blog = new Blog({ user: userId, category, title, content, img_url, img_title, author, synopsis, profilePhoto: user.profilePhoto });
         await blog.save();
 
         return new Response(JSON.stringify({ message: 'New blog posted' }), { status: 200 });

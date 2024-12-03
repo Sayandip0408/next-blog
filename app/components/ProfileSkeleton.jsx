@@ -13,7 +13,7 @@ const ProfileSkeleton = () => {
 
             <Skeleton className="h-8 w-[10vw] rounded-lg mt-10 mx-auto" />
 
-            <div className='h-fit w-full grid grid-cols-2 gap-5 mt-5'>
+            <div className='h-fit w-full grid grid-cols-1 gap-5 mt-5'>
             {[...Array(4)].map((_, index) => (
                     <Skeleton key={index} className='h-32 md:h-56 w-full rounded-lg' />
                 ))}

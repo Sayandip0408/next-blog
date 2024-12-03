@@ -7,6 +7,7 @@ import ProfileSkeleton from '../components/ProfileSkeleton'
 import Skeleton from '../components/Skeleton'
 import Image from 'next/image'
 import { CldUploadWidget } from 'next-cloudinary'
+import Link from 'next/link'
 
 const Profile = () => {
     const { logout } = useAuth();
@@ -15,6 +16,26 @@ const Profile = () => {
     const [error, setError] = useState(null);
     const [userId, setUserId] = useState(null);
     const [profilePhoto, setProfilePhoto] = useState("");
+    const [blogs, setBlogs] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1); // State for the current page
+    const blogsPerPage = 5; // Blogs per page
+
+    // Calculate pagination details
+    const totalPages = Math.ceil(blogs.length / blogsPerPage);
+    const startIndex = (currentPage - 1) * blogsPerPage;
+    const currentBlogs = blogs.slice(startIndex, startIndex + blogsPerPage);
+
+    const sanitizeTitle = (title) => {
+        return title.replace(/[^a-zA-Z0-9\s-]/g, '').trim().replace(/\s+/g, '-');
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+    };
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) setCurrentPage(currentPage - 1);
+    };
 
     function formatDate(timestamp) {
         const date = new Date(timestamp);
@@ -88,7 +109,6 @@ const Profile = () => {
         }
     };
 
-
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const storedUserId = localStorage.getItem('userId');
@@ -99,11 +119,27 @@ const Profile = () => {
     useEffect(() => {
         if (!userId) return;
 
-        const apiUrl = `/api/get-profile?userId=${userId}`;
+        const apiUrl1 = `/api/get-blogs-by-userId?userId=${userId}`;
+        const apiUrl2 = `/api/get-profile?userId=${userId}`;
+
+        const fetchBlogData = async () => {
+            try {
+                const response = await fetch(apiUrl1);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const data = await response.json();
+                setBlogs(data.data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
 
         const fetchProfileData = async () => {
             try {
-                const response = await fetch(apiUrl);
+                const response = await fetch(apiUrl2);
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
@@ -117,7 +153,9 @@ const Profile = () => {
             }
         };
 
+        fetchBlogData();
         fetchProfileData();
+
     }, [userId]);
 
     if (loading) {
@@ -172,25 +210,71 @@ const Profile = () => {
                     </div>
 
                     <p className='uppercase mt-5 text-xs text-gray-500'>name:</p>
-                    <h2 className='text-xl lg:text-2xl font-semibold'>{profileData.firstName} {profileData.lastName}</h2>
+                    <h2 className='text-xl lg:text-2xl font-semibold'>{profileData ? `${profileData.firstName} ${profileData.lastName}` : ''}</h2>
                     <p className='uppercase mt-5 text-xs text-gray-500'>gender:</p>
-                    <p className='capitalize font-medium text-sm'>{profileData.gender}</p>
+                    <p className='capitalize font-medium text-sm'>{profileData ? `${profileData.gender}` : ''}</p>
                     <p className='uppercase mt-5 text-xs text-gray-500'>about:</p>
-                    <h3 className='font-medium text-sm lg:text-base'>{profileData.about}</h3>
+                    <h3 className='font-medium text-sm lg:text-base'>{profileData ? `${profileData.about}` : ''}</h3>
                     <p className='uppercase mt-5 text-xs text-gray-500'>address:</p>
-                    <h3 className='font-medium text-sm text-gray-500'>{profileData.address}</h3>
-                    <p className='mt-5 text-sm text-gray-500'>joined on : {formatDate(profileData.createdAt)}</p>
+                    <h3 className='font-medium text-sm text-gray-500'>{profileData ? `${profileData.address}` : ''}</h3>
+                    <p className='mt-5 text-sm text-gray-500'>joined on : {profileData ? `${formatDate(profileData.createdAt)}` : ''}</p>
 
-                    <div className='mx-auto bg-yellow-500 w-fit p-3 rounded-lg mt-10'>
-                        <h4 className='font-medium'>Your Blogs</h4>
+                    <button onClick={logout} className='bg-red-500 hover:bg-red-600 p-2 w-40 font-semibold text-white rounded-md mt-10'>Log Out</button>
+                    <div className='w-full h-full p-2 rounded-lg mt-5'>
+                        <h3 className='font-semibold capitalize lg:text-lg text-center text-yellow-700 mb-2 border-b-2 border-b-yellow-700'>~ Your blogs ~</h3>
+                        <div className='h-fit w-full grid grid-cols-1 gap-5'>
+                            {currentBlogs.length > 0 ? (
+                                currentBlogs.map((blog) => (
+                                    <Link
+                                        key={blog._id}
+                                        href={`/${sanitizeTitle(blog.category)}/${blog._id}/${sanitizeTitle(blog.title)}`}
+                                        className='rounded-lg w-full h-24 lg:h-28 grid grid-cols-4 hover:bg-gray-200'
+                                    >
+                                        <Image
+                                            src={blog.img_url}
+                                            alt='blog_img'
+                                            height={200}
+                                            width={200}
+                                            className='h-24 lg:h-28 rounded-l-lg col-span-1'
+                                        />
+                                        <div className='border-t border-b border-r rounded-r-lg col-span-3 h-full w-full flex flex-col justify-between px-1'>
+                                            <h3 className='line-clamp-1 font-semibold'>{blog.title}</h3>
+                                            <p className='line-clamp-1 text-sm font-medium'>{blog.synopsis}</p>
+                                            <p className='line-clamp-1 text-sm font-medium text-gray-500'>{blog.author}</p>
+                                            <p className='line-clamp-1 text-sm font-medium text-gray-500'>{formatDate(blog.createdAt)}</p>
+                                        </div>
+                                    </Link>
+                                ))
+                            ) : (
+                                <div className='h-32 w-full bg-gray-700 flex flex-col gap-5 items-center justify-center rounded-lg'>
+                                    <p className='text-white'>No Blogs Available ☹️</p>
+                                    <Link href='/new-blog' className='h-10 w-44 bg-white text-gray-700 flex items-center justify-center rounded-lg hover:bg-gray-100'>Write a new blog</Link>
+                                </div>
+                            )}
+                        </div>
+                        {/* Pagination Buttons */}
+                        <div className="flex justify-between mt-4">
+                            <button
+                                onClick={handlePreviousPage}
+                                disabled={currentPage === 1}
+                                className={`px-4 py-2 text-sm font-medium bg-gray-300 rounded-md hover:bg-gray-400 ${currentPage === 1 && 'opacity-50 cursor-not-allowed'
+                                    }`}
+                            >
+                                Previous
+                            </button>
+                            <span className="text-sm font-medium">
+                                Page {currentPage} of {totalPages}
+                            </span>
+                            <button
+                                onClick={handleNextPage}
+                                disabled={currentPage === totalPages}
+                                className={`px-4 py-2 text-sm font-medium bg-gray-300 rounded-md hover:bg-gray-400 ${currentPage === totalPages && 'opacity-50 cursor-not-allowed'
+                                    }`}
+                            >
+                                Next
+                            </button>
+                        </div>
                     </div>
-
-                    <div className='h-fit w-full grid grid-cols-2 gap-5 mt-5'>
-                        {[...Array(4)].map((_, index) => (
-                            <Skeleton key={index} className='h-32 md:h-56 w-full rounded-lg' />
-                        ))}
-                    </div>
-                    <button onClick={logout} className='bg-red-500 hover:bg-red-600 p-2 w-full font-semibold text-white rounded-md mt-10'>Log Out</button>
                 </div>
             </main>
         </ProtectedRoute>

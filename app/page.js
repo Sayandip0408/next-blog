@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Image from 'next/image';
 import HeroSkeleton from './components/HeroSkeleton';
 import Link from 'next/link';
+import Skeleton from './components/Skeleton';
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
@@ -38,7 +39,7 @@ const Home = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('/api/get-random-blogs');
+        const response = await fetch(`/api/get-random-blogs?size=4`);
         if (!response.ok) {
           throw new Error('Failed to fetch blogs');
         }
@@ -56,7 +57,7 @@ const Home = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('/api/get-random-blogs');
+        const response = await fetch('/api/get-random-blogs?size=2');
         if (!response.ok) {
           throw new Error('Failed to fetch blogs');
         }
@@ -142,7 +143,7 @@ const Home = () => {
             <h3 className='font-semibold capitalize lg:text-lg'>~ must read</h3>
             <div className='h-fit w-full grid grid-cols-1 md:grid-cols-2 gap-5'>
               {
-                randomBlogs.map((blog) => (
+                randomBlogs.length > 0 ? randomBlogs.map((blog) => (
                   <Link key={blog._id} href={`/${sanitizeTitle(blog.category)}/${blog._id}/${sanitizeTitle(blog.title)}`} className='rounded-lg w-full h-24 lg:h-28 grid grid-cols-4 hover:bg-gray-100'>
                     <Image src={blog.img_url} alt='blog_img' height={200} width={200} className='h-full rounded-l-lg col-span-1' />
                     <div className='border rounded-r-lg col-span-3 h-full w-full flex flex-col justify-between px-1'>
@@ -152,16 +153,19 @@ const Home = () => {
                       <p className='line-clamp-1 text-sm font-medium text-gray-500'>{formatDate(blog.createdAt)}</p>
                     </div>
                   </Link>
-                ))
+                )) :
+                  [...Array(3)].map((_, index) => (
+                    <Skeleton key={index} className='rounded-lg w-full h-24 lg:h-28 grid grid-cols-4 hover:bg-gray-100' />
+                  ))
               }
             </div>
           </div>
           <div className='lg:col-span-1 p-2 rounded-lg'>
             <h3 className='font-semibold capitalize lg:text-lg'>~ Most popular</h3>
             <div className='h-fit w-full grid grid-cols-1 gap-5'>
-            {
-              popularBlogs.map((blog) => (
-                <Link key={blog._id} href={`/${sanitizeTitle(blog.category)}/${blog._id}/${sanitizeTitle(blog.title)}`} className='rounded-lg w-full h-24 lg:h-28 grid grid-cols-4 hover:bg-gray-100'>
+              {
+                popularBlogs.length > 0 ? popularBlogs.map((blog) => (
+                  <Link key={blog._id} href={`/${sanitizeTitle(blog.category)}/${blog._id}/${sanitizeTitle(blog.title)}`} className='rounded-lg w-full h-24 lg:h-28 grid grid-cols-4 hover:bg-gray-100'>
                     <Image src={blog.img_url} alt='blog_img' height={200} width={200} className='h-full rounded-l-lg col-span-1' />
                     <div className='border rounded-r-lg col-span-3 h-full w-full flex flex-col justify-between px-1'>
                       <h3 className='line-clamp-1 font-semibold'>{blog.title}</h3>
@@ -170,9 +174,12 @@ const Home = () => {
                       <p className='line-clamp-1 text-sm font-medium text-gray-500'>{formatDate(blog.createdAt)}</p>
                     </div>
                   </Link>
-                ))
+                )) :
+                  [...Array(3)].map((_, index) => (
+                    <Skeleton key={index} className='rounded-lg w-full h-24 lg:h-28 grid grid-cols-4 hover:bg-gray-100' />
+                  ))
               }
-              </div>
+            </div>
           </div>
         </section>
       </div>

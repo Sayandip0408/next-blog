@@ -25,9 +25,9 @@ const NewBlog = () => {
     const handleInputChange = (e) => {
         const value = e.target.value;
         if (/^[a-zA-Z0-9 ]*$/.test(value)) {
-          setTitle(value);
+            setTitle(value);
         }
-      };
+    };
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -82,6 +82,7 @@ const NewBlog = () => {
             <main className='p-2 relative'>
                 <Navbar />
                 <div className='py-[72px]'>
+                    <h2 className='text-center font-semibold text-lg my-3 capitalize bg-red-400 text-red-950 p-1'>Upload the banner image first then start filling other fields</h2>
                     <form className='w-full max-w-[1000px] h-fit flex flex-col gap-5 mx-auto md:px-5' onSubmit={handleSubmit}>
                         <div className='w-full h-fit flex flex-col'>
                             <label className='uppercase text-xs lg:text-sm font-medium text-gray-700'>Title: <span className='lowercase text-gray-500 font-normal'>(special characters are not allowed)</span></label>
@@ -100,15 +101,30 @@ const NewBlog = () => {
                             <input type='text' placeholder='Wite a short line about this blog' required value={synopsis} onChange={(e) => setSynopsis(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm lg:text-base font-medium' />
                         </div>
                         <div className='w-full h-fit flex flex-col'>
-                            <label className='uppercase text-xs lg:text-sm font-medium text-gray-700'>Category:</label>
-                            <input type='text' placeholder='Choose a category' required value={category} onChange={(e) => setCategory(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm lg:text-base font-medium' />
+                            <label className='uppercase text-xs font-medium text-gray-500'>category</label>
+                            <select
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                                required
+                                className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm bg-white'>
+                                <option value="" disabled>Select Category</option>
+                                <option value="Jobs and Careers">Jobs and Careers</option>
+                                <option value="Lifestyle">Lifestyle</option>
+                                <option value="IT and Tech">IT and Tech</option>
+                                <option value="Fitness">Fitness</option>
+                                <option value="Travel">Travel</option>
+                                <option value="Education">Education</option>
+                                <option value="News">News</option>
+                                <option value="Movies and Shows">Movies and Shows</option>
+                                <option value="Foods">Foods</option>
+                            </select>
                         </div>
                         <div className='p-2 w-full h-fit flex flex-col md:flex-row md:items-center gap-5'>
                             <CldUploadWidget uploadPreset="inkling" onSuccess={handleImgUpload}>
                                 {({ open }) => {
                                     return (
                                         <button onClick={() => open()} className='bg-yellow-500 text-black hover:bg-yellow-600 hover:text-white h-10 w-full md:w-56'>
-                                            Upload an Image
+                                            Upload a Banner
                                         </button>
                                     );
                                 }}

@@ -33,6 +33,9 @@ const BlogSchema = new mongoose.Schema({
     img_title: {
         type: String,
     },
+    profilePhoto:{
+        type: String,
+    }
 }, {
     timestamps: true,
 });

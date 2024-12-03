@@ -3,10 +3,10 @@ import connectDB from '../../../../server/utils/db';
 import jwt from 'jsonwebtoken';
 
 export async function POST(request) {
-  const { email, password, firstName, lastName } = await request.json();
+  const { email, password, firstName, lastName, gender, address, about, profilePhoto } = await request.json();
 
-  if (!email || !password || !firstName || !lastName) {
-    return new Response('Email and password are required', { status: 400 });
+  if (!email || !password || !firstName || !lastName || !gender || !address || !about || !profilePhoto) {
+    return new Response('All fields are required. Please fill out every detail.', { status: 400 });
   }
 
   try {
@@ -17,7 +17,7 @@ export async function POST(request) {
       return new Response('User already exists', { status: 400 });
     }
 
-    const user = new User({ email, password, firstName, lastName });
+    const user = new User({ email, password, firstName, lastName, gender, address, about, profilePhoto });
     await user.save();
 
     const accessToken = jwt.sign({ userId: user._id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' });

@@ -4,12 +4,17 @@ import Navbar from '../components/Navbar'
 import Link from 'next/link';
 import { useAuth } from '../context/authContext';
 import { useRouter } from 'next/navigation';
+import { CldUploadWidget } from 'next-cloudinary';
 
 const SignUp = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [gender, setGender] = useState('');
+    const [address, setAddress] = useState('');
+    const [about, setAbout] = useState('');
+    const [profilePhoto, setProfilePhoto] = useState('');
     const [validEmail, setValidEmail] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -32,7 +37,7 @@ const SignUp = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password, firstName, lastName }),
+            body: JSON.stringify({ email, password, firstName, lastName, gender, address, about, profilePhoto }),
         });
 
         if (!response.ok) {
@@ -79,13 +84,64 @@ const SignUp = () => {
                     <label className='uppercase text-xs font-medium text-gray-500'>password</label>
                     <input type='password' placeholder='Password' required value={password} onChange={(e) => setPassword(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm' />
                 </div>
-
+                <div className='w-full h-fit flex flex-col'>
+                    <label className='uppercase text-xs font-medium text-gray-500'>gender</label>
+                    <select
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                        required
+                        className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm bg-white'>
+                        <option value="" disabled>Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div className='w-full h-fit flex flex-col'>
+                    <label className='uppercase text-xs font-medium text-gray-500'>about yourself</label>
+                    <input type='text' placeholder='Hobbies or Profession' required value={about} onChange={(e) => setAbout(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm' />
+                </div>
+                <div className='w-full h-fit flex flex-col'>
+                    <label className='uppercase text-xs font-medium text-gray-500'>address</label>
+                    <input type='text' placeholder='45, ABC Street, XYZ, PQR - 719841' required value={address} onChange={(e) => setAddress(e.target.value)} className='border-b border-b-gray-300 focus:outline-none focus:border-b-gray-600 h-10 transition duration-200 text-sm' />
+                </div>
+                <div className='w-full h-fit flex flex-col gap-5'>
+                    <label className='uppercase text-xs font-medium text-gray-500'>profile photo</label>
+                    <div className='flex flex-col md:flex-row md:items-center gap-5'>
+                        <CldUploadWidget uploadPreset="inkling" onSuccess={(result) => {
+                            if (result && result.info) {
+                                setProfilePhoto(result.info.secure_url);
+                            }
+                        }}>
+                            {({ open }) => (
+                                <button
+                                    onClick={() => open()}
+                                    className='bg-blue-500 text-white hover:bg-blue-600 h-10 w-full md:w-56'>
+                                    Upload Profile Photo
+                                </button>
+                            )}
+                        </CldUploadWidget>
+                        {profilePhoto !== '' && (
+                            <div className='flex items-center gap-3'>
+                                <img
+                                    src={profilePhoto}
+                                    alt="Profile"
+                                    className='w-12 h-12 rounded-full object-cover border'
+                                />
+                                <p className='text-sm line-clamp-1'>
+                                    <span className='uppercase font-medium'>url: </span>
+                                    {profilePhoto}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                </div>
                 {
                     isLoading ?
                         <button className={`w-full h-12 bg-gray-200 text-gray-500 uppercase text-sm cursor-wait`}>
                             Verifying
                         </button> :
-                        <button type='submit' className={`w-full h-12 ${email === '' || password === '' || firstName === '' || lastName === '' ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-700 text-gray-200'} uppercase text-sm`}>
+                        <button type='submit' className={`w-full h-12 ${email === '' || password === '' || firstName === '' || lastName === '' || address === '' || about === '' || profilePhoto === '' || gender === '' ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-700 text-gray-200'} uppercase text-sm`}>
                             Continue
                         </button>
                 }
