@@ -16,7 +16,7 @@ export const metadata = {
     url: "https://inkling-by-sayandip.vercel.app"
   },
   twitter: {
-    title: "Inkling",
+    title: "Inkling blog website by sayandip adhikary",
     description: "Welcome to Inkling, where we share insights, stories, and resources to inspire and inform. Our mission is to create a space for learning, growth, and exploration, covering topics such as web development, technology trends, personal growth, and more.",
     images: ["https://images.pexels.com/photos/261662/pexels-photo-261662.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"],
     card: "summary_large_image",
